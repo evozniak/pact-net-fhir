@@ -1,0 +1,113 @@
+{
+  "consumer": {
+    "name": "IOB PICS Consumer"
+  },
+  "interactions": [
+    {
+      "description": "PICS document outbound",
+      "providerStates": [
+        {
+          "name": "A POST request with a Bundle, DocumentReference and Attachment'"
+        }
+      ],
+      "request": {
+        "body": {
+          "entry": [
+            {
+              "resource": {
+                "content": [
+                  {
+                    "attachment": {
+                      "data": "string"
+                    }
+                  }
+                ],
+                "resourceType": "DocumentReference"
+              }
+            }
+          ],
+          "resourceType": "Bundle",
+          "type": "collection"
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Authorization": "Bearer",
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$.entry[0].resource.content[0].attachment.data": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.entry[0].resource.resourceType": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "include",
+                  "value": "DocumentReference"
+                }
+              ]
+            },
+            "$.resourceType": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "include",
+                  "value": "Bundle"
+                }
+              ]
+            },
+            "$.type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "include",
+                  "value": "collection"
+                }
+              ]
+            }
+          },
+          "header": {
+            "$.Authorization[0]": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "include",
+                  "value": "Bearer"
+                }
+              ]
+            }
+          }
+        },
+        "method": "POST",
+        "path": "/share/toolkit/fhirtohl7/R4"
+      },
+      "response": {
+        "body": {
+          "message": "ok, processed"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pactRust": {
+      "ffi": "0.4.0",
+      "models": "1.0.4"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "IOB PICS Integration"
+  }
+}
